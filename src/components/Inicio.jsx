@@ -6,51 +6,53 @@ import Header from "./Header";
 const Inicio = () => {
   return (
     <>
-      <h1>Bienvenido Usuario </h1>
-      <ContenedorInfo>
-        <FichaInfo>
-          <h3>Codigo:</h3>
-          <p>0707808</p>
-        </FichaInfo>
-        <FichaInfo>
-          <h3>Grado Academico:</h3>
-          <p>Doctorado</p>
-        </FichaInfo>
-        <FichaInfo>
-          <h3>Nombramiento:</h3>
-          <p>Prof.Inv.Asociado</p>
-        </FichaInfo>
-        <FichaInfo>
-          <h3>Antiguedad:</h3>
-          <p>23 years</p>
-        </FichaInfo>
-      </ContenedorInfo>
-
-      <h3>Informes:</h3>
+      <ContenedorEncabezado>
+        <Titulo>Bienvenido Usuario </Titulo>
+        <ContenedorInfo>
+          <FichaInfo>
+            <h3>Codigo:</h3>
+            <p>0707808</p>
+          </FichaInfo>
+          <FichaInfo>
+            <h3>Grado Academico:</h3>
+            <p>Doctorado</p>
+          </FichaInfo>
+          <FichaInfo>
+            <h3>Nombramiento:</h3>
+            <p>Prof.Inv.Asociado</p>
+          </FichaInfo>
+          <FichaInfo>
+            <h3>Antiguedad:</h3>
+            <p>23 years</p>
+          </FichaInfo>
+        </ContenedorInfo>
+        <Subtitulo>Informes:</Subtitulo>
+      </ContenedorEncabezado>
 
       <Lista>
-        <ListaItem>2017</ListaItem>
-        <ListaItem>2018</ListaItem>
         <ListaItem>2019</ListaItem>
         <ListaItem>2020</ListaItem>
         <ListaItem>2021</ListaItem>
         <ListaItem>2022</ListaItem>
       </Lista>
-
-      <Boton ><NavLink to={'/registro'} >gregar nuevo informe</NavLink> </Boton>
+      <NavLink to={"/registro"}>
+        <Boton>agregar nuevo informe</Boton>
+      </NavLink>
     </>
   );
 };
 
-export const Lista = styled.ul`
+ const Lista = styled.ul`
   list-style: none;
   height: 100%;
   overflow: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 `;
 
-export const ListaItem = styled.li`
+
+
+ const ListaItem = styled.li`
   height: 60px;
   padding: 0 20px;
   align-items: center;
@@ -59,6 +61,9 @@ export const ListaItem = styled.li`
   display: grid;
   grid-template-columns: auto 1fr auto;
 
+  a {
+    text-decoration: none;
+  }
   :nth-child(even) {
     background: #f3f3f3;
   }
@@ -67,6 +72,7 @@ export const ListaItem = styled.li`
   }
 `;
 const Boton = styled.button`
+margin-top: 10px;
   background: #0085ff;
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
@@ -82,13 +88,26 @@ const Boton = styled.button`
     background: #0051ff;
   }
 `;
-const ContenedorInfo = styled.div   `
-    padding: 30px 50px;
-`
+const ContenedorInfo = styled.div`
+  padding: 30px 50px;
+`;
 
 const FichaInfo = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between; ;
+`;
+
+const Titulo = styled.h1`
+  padding-left: 20px;
+  padding-top: 10px;
+`;
+const Subtitulo = styled.h3`
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+`;
+const ContenedorEncabezado = styled.div`
+  background-color: white;
 `;
 export default Inicio;

@@ -6,7 +6,8 @@ import Header from "./components/Header";
 import Inicio from "./components/Inicio";
 import MenuDocencia from "./components/MenuDocencia";
 import RegistroInforme from "./components/RegistroInforme";
-import SignIn from "./components/SingIn";
+import SignIn from "./components/SignIn";
+import SingUp from "./components/SingUp";
 
 
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
   <Route path="/" element={<SignIn/>} />
   <Route path="/perfil" element={ <Inicio/> }/>
   <Route path="/registro" element={ <RegistroInforme/> }/>
-
+<Route path="/SignUp" element={ <SingUp /> } />
   <Route path="/menuDocencia" element={ <MenuDocencia/> }/>
   <Route path="/actualizacionDisiplinar" element={ <FormularioActDispl/> }/>
   </Routes>

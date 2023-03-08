@@ -42,7 +42,7 @@ const Formulario = () => {
 				<NavLink to={'/perfil'} ><button type="submit">Ingresar</button></NavLink>
 				
                 <Registro>
-				<p>No estas registrado? <a>Registrarte</a>  </p>
+				<p>No estas registrado? <NavLink to={'/SignUp'} >Registrarte</NavLink>  </p>
 			</Registro>
 			</Form>
 			
@@ -73,7 +73,9 @@ export const Form = styled.form`
 	border-radius: 5px;
 	padding: 20px;
 	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-
+	a {
+		text-decoration: none;
+	}
 	label {
 	display: block;
 	font-weight: 600;
@@ -108,6 +110,8 @@ button[type="submit"] {
 	color: #fff;
 	font-size: 16px;
 	transition: .3s ease all;
+
+	
 }
 
 button[type="submit"]:hover {

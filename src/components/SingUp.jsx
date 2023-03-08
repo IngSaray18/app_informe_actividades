@@ -1,42 +1,45 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
+import React from 'react'
+import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
 
-const FormularioActDispl = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+const SingUp = () => {
+const handleSubmit =(e)=>{
+    e.preventDefautl()
+}
+
   return (
-    <Contenedor>
+    <div>
+       <Contenedor>
       <Form action="" onSubmit={handleSubmit} className="formulario">
         <div>
-          <label htmlFor="Nombre_curso">Nombre del curso o diplomado:</label>
+          <label htmlFor="codigo">Codigo:</label>
           <input
             type="text"
-            name="nombreCurso"
+            name="codigo"
             placeholder=""
-            id="nombre"
+            id="codigo"
             value={""}
             onChange={""}
           />
 
-          <label htmlFor="tipoCurso">Tipo(curso,diplomado,otro)</label>
-          <input type="text" name="tipoCurso" id="tipoCurso" value={""} />
+          <label htmlFor="Nombre">Nombre Completo:</label>
+          <input type="text" name="Nombre" id="Nombre" value={""} />
 
-          <label htmlFor="horas">Numero de horas</label>
-          <input type="text" name="horas" id="horas" value={""} />
+          <label htmlFor="Grado">Grado academico:</label>
+          <input type="text" name="Grado" id="Grado" value={""} />
 
-          <label htmlFor="Institucion">Institucion que lo impartio</label>
-          <input type="text" name="institucion" id="institucion" value={""} />
+          <label htmlFor="Nombramiento">Nombramiento:</label>
+          <input type="text" name="Nombramiento" id="Nombramiento" placeholder='ej. Prof. Asociado' value={""} />
           <div>
-            <NavLink to={'/MenuDocencia'} ><button type="submit" >Registrar</button></NavLink> 
-            <button>Agregar curso</button>
+           <NavLink to={'/'} ><button type="submit">Registrarse</button></NavLink> 
           </div>
         </div>
       </Form>
     </Contenedor>
-  );
-};
+    </div>
+  )
+}
+
 
 const Contenedor = styled.div``;
 
@@ -107,4 +110,4 @@ export const Form = styled.form`
   }
 `;
 
-export default FormularioActDispl;
+export default SingUp
