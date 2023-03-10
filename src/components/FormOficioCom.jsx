@@ -49,6 +49,7 @@ const FormOficioCom = () => {
 comisionados:</label>
                     <input type="text" name="acompanniantesComisionado" id="acompanniantesComisionado" className="Texto" />
                 </div>
+                <Boton type="submit">Solicitar</Boton>
             </Form>
         </>
     );
@@ -100,13 +101,22 @@ flex-direction: row;
             justify-content: space-between;
             padding: 0px 10px;
 
-}
-
-
-
-
-
-
-            `
-
+}            `
+const Boton = styled.button`
+margin-top: 10px;
+  background: #0085ff;
+  font-weight: 600;
+  font-family: "Open Sans", sans-serif;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  transition: 0.3s ease all;
+  :hover {
+    background: #0051ff;
+  }
+`;
 export default FormOficioCom;
