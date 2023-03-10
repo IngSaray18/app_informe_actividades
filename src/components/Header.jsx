@@ -1,18 +1,24 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components'
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 const Header = () => {
   return (
     <Contenedor >
         <div>
             <NavLink to={'/perfil'} > <h1>DERN App</h1> </NavLink> 
         </div>
-  </Contenedor>
+        <div> <NavLink to={'/OficioComision'} ><AddOutlinedIcon fontSize='large'  /></NavLink>  </div>
+          </Contenedor>
   )
 }
 
 const Contenedor = styled.div`
- overflow: hidden;
+
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+overflow: hidden;
   background-color: #0085FF;
   padding: 10px 10px;
   text-align: center;
