@@ -1,45 +1,52 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
+import React from "react";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 
 const SingUp = () => {
-const handleSubmit =(e)=>{
-    e.preventDefautl()
-}
+  const handleSubmit = (e) => {
+    e.preventDefautl();
+  };
 
   return (
     <div>
-       <Contenedor>
-      <Form action="" onSubmit={handleSubmit} className="formulario">
-        <div>
-          <label htmlFor="codigo">Codigo:</label>
-          <input
-            type="text"
-            name="codigo"
-            placeholder=""
-            id="codigo"
-            value={""}
-            onChange={""}
-          />
-
-          <label htmlFor="Nombre">Nombre Completo:</label>
-          <input type="text" name="Nombre" id="Nombre" value={""} />
-
-          <label htmlFor="Grado">Grado academico:</label>
-          <input type="text" name="Grado" id="Grado" value={""} />
-
-          <label htmlFor="Nombramiento">Nombramiento:</label>
-          <input type="text" name="Nombramiento" id="Nombramiento" placeholder='ej. Prof. Asociado' value={""} />
+      <Contenedor>
+        <Form action="" onSubmit={handleSubmit} className="formulario">
           <div>
-           <NavLink to={'/'} ><button type="submit">Registrarse</button></NavLink> 
-          </div>
-        </div>
-      </Form>
-    </Contenedor>
-    </div>
-  )
-}
+            <label htmlFor="codigo">Codigo:</label>
+            <input
+              type="text"
+              name="codigo"
+              placeholder=""
+              id="codigo"
+              value={""}
+              onChange={""}
+            />
 
+            <label htmlFor="Nombre">Nombre Completo:</label>
+            <input type="text" name="Nombre" id="Nombre" value={""} />
+
+            <label htmlFor="Grado">Grado academico:</label>
+            <input type="text" name="Grado" id="Grado" value={""} />
+
+            <label htmlFor="Nombramiento">Nombramiento:</label>
+            <input
+              type="text"
+              name="Nombramiento"
+              id="Nombramiento"
+              placeholder="ej. Prof. Asociado"
+              value={""}
+            />
+            <div>
+              <NavLink to={"/"}>
+                <button type="submit">Registrarse</button>
+              </NavLink>
+            </div>
+          </div>
+        </Form>
+      </Contenedor>
+    </div>
+  );
+};
 
 const Contenedor = styled.div``;
 
@@ -81,10 +88,8 @@ export const Form = styled.form`
     margin-bottom: 5px;
     color: #1f1f1f;
   }
-  
 
   button {
-    
     background: #0085ff;
     font-weight: 600;
     font-family: "Open Sans", sans-serif;
@@ -110,4 +115,4 @@ export const Form = styled.form`
   }
 `;
 
-export default SingUp
+export default SingUp;

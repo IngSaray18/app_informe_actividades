@@ -9,24 +9,23 @@ import RegistroInforme from "./components/RegistroInforme";
 import SignIn from "./components/SignIn";
 import SingUp from "./components/SingUp";
 
-
 const App = () => {
   return (
     <>
-  
-  <div className="contenedor" >  
-    <Header/>
-  <Routes>
-  <Route path="/" element={<SignIn/>} />
-  <Route path="/perfil" element={ <Inicio/> }/>
-  <Route path="/registro" element={ <RegistroInforme/> }/>
-<Route path="/SignUp" element={ <SingUp /> } />
-  <Route path="/menuDocencia" element={ <MenuDocencia/> }/>
-  <Route path="/actualizacionDisiplinar" element={ <FormularioActDispl/> }/>
-  </Routes>
-  
-
-  </div>
+      <div className="contenedor">
+        <Header />
+        <Routes>
+          <Route path="/" element={<SignIn />} />
+          <Route path="/perfil" element={<Inicio />} />
+          <Route path="/registro" element={<RegistroInforme />} />
+          <Route path="/SignUp" element={<SingUp />} />
+          <Route path="/menuDocencia" element={<MenuDocencia />} />
+          <Route
+            path="/actualizacionDisiplinar"
+            element={<FormularioActDispl />}
+          />
+        </Routes>
+      </div>
     </>
   );
 };

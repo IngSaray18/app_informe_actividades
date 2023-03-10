@@ -11,25 +11,32 @@ const FormularioActDispl = () => {
       <Form action="" onSubmit={handleSubmit} className="formulario">
         <div>
           <label htmlFor="Nombre_curso">Nombre del curso o diplomado:</label>
-          <input
-            type="text"
-            name="nombreCurso"
-            placeholder=""
-            id="nombre"
-            value={""}
-            onChange={""}
-          />
+          <input type="text" name="nombreCurso" placeholder="" id="nombre" />
+          <label htmlFor="fecha">Fecha de realizacion</label>
+          <input type="date" />
+          <fieldset>
+            <legend>Tipo De Curso</legend>
+            <input
+              type="radio"
+              id="contactChoice1"
+              name="contact"
+              value="Curso"
+            />
+            <label htmlFor="contactChoice1">Curso</label>
 
-          <label htmlFor="tipoCurso">Tipo(curso,diplomado,otro)</label>
-          <input type="text" name="tipoCurso" id="tipoCurso" value={""} />
+
+            <input id="Diplomado" name="Diplomado" type="radio" value={'Diplomado'} />
+            <label htmlFor="Diplomado">Diplomado</label>
+          </fieldset>
 
           <label htmlFor="horas">Numero de horas</label>
-          <input type="text" name="horas" id="horas" value={""} />
-
+          <input type="text" name="horas" id="horas" />
           <label htmlFor="Institucion">Institucion que lo impartio</label>
-          <input type="text" name="institucion" id="institucion" value={""} />
+          <input type="text" name="institucion" id="institucion" />
           <div>
-            <NavLink to={'/MenuDocencia'} ><button type="submit" >Registrar</button></NavLink> 
+            <NavLink to={"/MenuDocencia"}>
+              <button type="submit">Registrar</button>
+            </NavLink>
             <button>Agregar curso</button>
           </div>
         </div>
@@ -56,7 +63,8 @@ export const Form = styled.form`
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
-  label {
+  label,
+  legend  {
     display: block;
     font-weight: 600;
     font-size: 20px;
@@ -67,7 +75,7 @@ export const Form = styled.form`
     margin-bottom: 20px;
   }
 
-  input,
+  input, fieldset,
   textarea {
     font-family: "Open Sans", sans-serif;
     width: 100%;
@@ -78,10 +86,8 @@ export const Form = styled.form`
     margin-bottom: 5px;
     color: #1f1f1f;
   }
-  
 
   button {
-    
     background: #0085ff;
     font-weight: 600;
     font-family: "Open Sans", sans-serif;

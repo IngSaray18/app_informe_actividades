@@ -42,7 +42,7 @@ const Inicio = () => {
   );
 };
 
- const Lista = styled.ul`
+const Lista = styled.ul`
   list-style: none;
   height: 100%;
   overflow: auto;
@@ -50,9 +50,7 @@ const Inicio = () => {
   margin-bottom: 0px;
 `;
 
-
-
- const ListaItem = styled.li`
+const ListaItem = styled.li`
   height: 60px;
   padding: 0 20px;
   align-items: center;
@@ -72,7 +70,7 @@ const Inicio = () => {
   }
 `;
 const Boton = styled.button`
-margin-top: 10px;
+  margin-top: 10px;
   background: #0085ff;
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
