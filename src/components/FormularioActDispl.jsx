@@ -7,7 +7,7 @@ const FormularioActDispl = () => {
     e.preventDefault();
   };
   return (
-    <Contenedor>
+    <>
       <Form action="" onSubmit={handleSubmit} className="formulario">
         <div>
           <label htmlFor="Nombre_curso">Nombre del curso o diplomado:</label>
@@ -41,20 +41,13 @@ const FormularioActDispl = () => {
           </div>
         </div>
       </Form>
-    </Contenedor>
+    </>
   );
 };
 
 const Contenedor = styled.div``;
 
-const Registro = styled.div`
-  margin-top: 100 px;
-  padding-top: 20px;
 
-  a {
-    color: blue;
-  }
-`;
 
 export const Form = styled.form`
   min-width: 600px;

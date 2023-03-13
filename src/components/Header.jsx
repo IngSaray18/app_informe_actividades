@@ -3,9 +3,8 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 const Header = () => {
-  const navigate = useNavigate();
 	const goBack = () => {
-		navigate(-1);
+		console.log('h eb e');
 	}
   return (
     <Contenedor >
@@ -28,7 +27,7 @@ overflow: hidden;
   text-align: center;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   color: white;
-
+  height: 64px;
   a {
     text-decoration: none;
     color: white;

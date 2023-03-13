@@ -56,6 +56,7 @@ comisionados:</label>
 }
 
 
+
 export const Form = styled.form`
             min-width: 600px;
             background: #fff;
