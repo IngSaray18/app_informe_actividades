@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+
+
 const Formulario = () => {
-  const [inputNombre, cambiarInputNombre] = useState("");
-  const [inputCorreo, cambiarInputCorreo] = useState("");
+     const [codigo, setCodigo] = useState("");
+
 
   // Funcion que se encargara de validar los datos y enviar el formulario
   const handleSubmit = (e) => {
@@ -16,14 +18,12 @@ const Formulario = () => {
   };
 
   // Funcion que se encarga de cambiar el estado del inputNombre
-  const handleInputNombre = (e) => {
-    cambiarInputNombre(e.target.value);
+  const handleInputCodigo = (e) => {
+    setCodigo(e.target.value);
+
   };
 
-  // Funcion que se encarga de cambiar el estado del inputCorreo
-  const handleInputCorreo = (e) => {
-    cambiarInputCorreo(e.target.value);
-  };
+  // Funcion que se encarga de cambiar e
 
   return (
     <Contenedor>
@@ -35,8 +35,8 @@ const Formulario = () => {
             name="nombre"
             placeholder=""
             id="nombre"
-            value={inputNombre}
-            onChange={handleInputNombre}
+            value={codigo}
+            onChange={handleInputCodigo}
           />
         </div>
         <NavLink to={"/perfil"}>

@@ -1,10 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { db } from "./../firebase/firebase.Config";
+import { collection, addDoc, setDoc , doc } from "firebase/firestore";
 
 const SingUp = () => {
-  const handleSubmit = (e) => {
-    e.preventDefautl();
+  const [nombre, setNombre] = useState("");
+  const [codigo, setCodigo] = useState('');
+  const [grado, setGrado] = useState("");
+  const [nombramiento, setNombramiento] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const datos = {
+      nombre: nombre,
+      codigo: codigo,
+      grado: grado,
+      nombramiento: nombramiento,
+    };
+    
+    
+try {
+  await setDoc( doc(db,'profesores', codigo), datos)
+
+  console.log('listo');
+  setCodigo('')
+  setNombramiento('')
+  setNombre('')
+  setGrado('')
+} catch (error) {
+  console.log(error);
+}
+
+    
   };
 
   return (
@@ -18,15 +46,27 @@ const SingUp = () => {
               name="codigo"
               placeholder=""
               id="codigo"
-              value={""}
-              onChange={""}
+              value={codigo}
+              onChange={(e) => setCodigo(e.target.value)}
             />
 
             <label htmlFor="Nombre">Nombre Completo:</label>
-            <input type="text" name="Nombre" id="Nombre" value={""} />
+            <input
+              type="text"
+              name="Nombre"
+              id="Nombre"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+            />
 
             <label htmlFor="Grado">Grado academico:</label>
-            <input type="text" name="Grado" id="Grado" value={""} />
+            <input
+              type="text"
+              name="Grado"
+              id="Grado"
+              value={grado}
+              onChange={(e) => setGrado(e.target.value)}
+            />
 
             <label htmlFor="Nombramiento">Nombramiento:</label>
             <input
@@ -34,14 +74,12 @@ const SingUp = () => {
               name="Nombramiento"
               id="Nombramiento"
               placeholder="ej. Prof. Asociado"
-              value={""}
+              value={nombramiento}
+              onChange={(e) => setNombramiento(e.target.value)}
             />
-            <div>
-              <NavLink to={"/"}>
-                <button type="submit">Registrarse</button>
-              </NavLink>
-            </div>
+            <div></div>
           </div>
+          <button type="submit">Registrarse</button>
         </Form>
       </Contenedor>
     </div>

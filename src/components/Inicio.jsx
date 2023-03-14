@@ -1,29 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import Header from "./Header";
+import { db } from './../firebase/firebase.Config'
+import { collection, getDoc, onSnapshot, doc } from "firebase/firestore";
 
-const Inicio = () => {
+
+
+const Inicio =  () => {
+const [usuario, setUsuario] = useState({});
+
+  useEffect(() => {
+    
+   onSnapshot( doc (db, "profesores", '21888'), 
+              (doc) => {
+      setUsuario( doc.data() )
+      });
+ 
+},[]);
+
   return (
     <>
       <ContenedorEncabezado>
-        <Titulo>Bienvenido Usuario </Titulo>
+        <Titulo>Bienvenido { usuario.nombre } </Titulo>
         <ContenedorInfo>
           <FichaInfo>
             <h3>Codigo:</h3>
-            <p>0707808</p>
+            <p>{ usuario.codigo }</p>
           </FichaInfo>
           <FichaInfo>
             <h3>Grado Academico:</h3>
-            <p>Doctorado</p>
+            <p>{usuario.grado}</p>
           </FichaInfo>
           <FichaInfo>
             <h3>Nombramiento:</h3>
-            <p>Prof.Inv.Asociado</p>
+            <p>{ usuario.nombramiento }</p>
           </FichaInfo>
           <FichaInfo>
-            <h3>Antiguedad:</h3>
-            <p>23 years</p>
+           
           </FichaInfo>
         </ContenedorInfo>
         <Subtitulo>Informes:</Subtitulo>
