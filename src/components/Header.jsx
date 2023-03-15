@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import LogoutIcon from '@mui/icons-material/Logout';
 const Header = () => {
 	const goBack = () => {
 		console.log('h eb e');
@@ -11,7 +12,11 @@ const Header = () => {
         <div>
             <NavLink to={'/perfil'} > <h1>DERN App</h1> </NavLink> 
         </div>
-        <div> <NavLink to={'/OficioComision'} ><AddOutlinedIcon fontSize='large'  /></NavLink>  </div>
+        <div> 
+           <NavLink to={'/OficioComision'} ><AddOutlinedIcon fontSize='large'  /></NavLink> 
+           <NavLink to={'/'} > <LogoutIcon fontSize='large' /> </NavLink> 
+           </div>
+
           </Contenedor>
   )
 }

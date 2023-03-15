@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { db } from "./../firebase/firebase.Config";
 import { collection, addDoc, setDoc , doc } from "firebase/firestore";
@@ -9,6 +9,7 @@ const SingUp = () => {
   const [codigo, setCodigo] = useState('');
   const [grado, setGrado] = useState("");
   const [nombramiento, setNombramiento] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +24,8 @@ const SingUp = () => {
 try {
   await setDoc( doc(db,'profesores', codigo), datos)
 
+
+  navigate('/')
   console.log('listo');
   setCodigo('')
   setNombramiento('')
@@ -67,7 +70,6 @@ try {
               value={grado}
               onChange={(e) => setGrado(e.target.value)}
             />
-
             <label htmlFor="Nombramiento">Nombramiento:</label>
             <input
               type="text"

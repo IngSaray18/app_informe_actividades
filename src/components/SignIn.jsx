@@ -1,25 +1,29 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
+import { ContextoCodigo } from "../contexts/contextoCodigo";
 
 const Formulario = () => {
+  const navigate = useNavigate();
+  const {ingresar} = useContext(ContextoCodigo);
+
      const [codigo, setCodigo] = useState("");
 
 
   // Funcion que se encargara de validar los datos y enviar el formulario
   const handleSubmit = (e) => {
     e.preventDefault();
+     ingresar(codigo)
+    navigate('/perfil')
 
-    // Comprobamos validacion del formulario ...
-    // Si todo es correcto enviamos el formulario
-
-    console.log(inputNombre);
   };
 
   // Funcion que se encarga de cambiar el estado del inputNombre
   const handleInputCodigo = (e) => {
     setCodigo(e.target.value);
+    
+
+    
 
   };
 
@@ -39,9 +43,8 @@ const Formulario = () => {
             onChange={handleInputCodigo}
           />
         </div>
-        <NavLink to={"/perfil"}>
+
           <button type="submit">Ingresar</button>
-        </NavLink>
 
         <Registro>
           <p>
