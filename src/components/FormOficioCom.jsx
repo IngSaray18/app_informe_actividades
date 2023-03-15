@@ -1,23 +1,32 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { db } from "./../firebase/firebase.Config";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, setDoc, increment, onSnapshot } from "firebase/firestore";
+import { ContextoCodigo } from "../contexts/contextoCodigo";
 
 
 
 const FormOficioCom = () => {
-    const id = 218
+
+	const [usuario, setUsuario] = useState({});
+
+  const { codigo } = useContext( ContextoCodigo )
   const [lugar, setlugar] = useState("");
   const [actividades, setactividades] = useState("");
   const [fecha, setfecha] = useState("");
   const [vehiculo, setVehiculo] = useState("");
   const [personalDern, setpersonalDern] = useState('');
   const [personasExtra, setPersonasExtra] = useState('');
+useEffect(() => {
+  onSnapshot (doc(db, "profesores", codigo), (doc) => {
+    setUsuario(doc.data());
+  });
+}, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-         await addDoc( collection(db, `/profesores/${id}/oficios_comision/`),{
+         await addDoc( collection(db, `/profesores/${codigo}/oficios_comision/`),{
 
             acompanniantes_DERN: personalDern,
             acompanniantes_extra: personasExtra,
@@ -26,6 +35,19 @@ const FormOficioCom = () => {
             lugar_traslasdo: lugar,
             medio_transporte: vehiculo
 
+         } )
+
+         await addDoc ( collection(db , 'oficio_comision', '2' ),{
+
+            num_oficio: increment(+1),
+            nombre_solicitante: usuario.nombre,
+            codigo_solicitante: usuario.codigo,
+            acompanniantes_DERN: personalDern,
+            acompanniantes_extra: personasExtra,
+            actividades_a_realizar: actividades,
+            fecha: fecha,
+            lugar_traslasdo: lugar,
+            medio_transporte: vehiculo
          } )
          console.log('succes')
          setPersonasExtra
