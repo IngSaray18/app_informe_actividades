@@ -9,6 +9,8 @@ const SingUp = () => {
   const [codigo, setCodigo] = useState('');
   const [grado, setGrado] = useState("");
   const [nombramiento, setNombramiento] = useState("");
+  const [password, setpassword] = useState('');
+  const [confirmepass, setConfirmepass] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,19 +20,28 @@ const SingUp = () => {
       codigo: codigo,
       grado: grado,
       nombramiento: nombramiento,
+      password: password
+    
     };
     
     
 try {
-  await setDoc( doc(db,'profesores', codigo), datos)
+  
+  if (password === confirmepass ) {
+    await setDoc( doc(db,'profesores', codigo), datos)
+    navigate('/')
+    console.log('listo');
+    setCodigo('')
+    setNombramiento('')
+    setNombre('')
+    setGrado('')
+  }else{
+    console.log('las contrasennias tienen que coincidir');
+  }
+  
 
 
-  navigate('/')
-  console.log('listo');
-  setCodigo('')
-  setNombramiento('')
-  setNombre('')
-  setGrado('')
+
 } catch (error) {
   console.log(error);
 }
@@ -79,6 +90,19 @@ try {
               value={nombramiento}
               onChange={(e) => setNombramiento(e.target.value)}
             />
+            <label htmlFor="password">Introduzca contraseña</label>
+              <input type="password" 
+                      name= 'password' 
+                       value={password}
+                       onChange={ (e)=> setpassword(e.target.value) } />
+
+                      <label htmlFor="confirmepassword">Confirmar contraseña</label>
+                      <input type="password" 
+                              name='confirmepassword'
+                              value={confirmepass}
+                       onChange={ (e)=> setConfirmepass(e.target.value) } />
+
+
             <div></div>
           </div>
           <button type="submit">Registrarse</button>

@@ -1,3 +1,5 @@
+import { onSnapshot, doc } from "firebase/firestore";
+import { db } from "./../firebase/firebase.Config";
 import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -8,13 +10,28 @@ const Formulario = () => {
   const {ingresar} = useContext(ContextoCodigo);
 
      const [codigo, setCodigo] = useState("");
-
+     const [password, setpassword] = useState('');
+     const [usuario, setUsuario] = useState({});
 
   // Funcion que se encargara de validar los datos y enviar el formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-     ingresar(codigo)
-    navigate('/perfil')
+
+
+   onSnapshot(doc(db, "profesores", codigo), (doc) => {
+      setUsuario(doc.data());
+    })
+    if (usuario.password === password) {
+      ingresar(codigo)
+      setCodigo('')
+      setpassword('')
+      navigate('/perfil')
+    }else{ 
+      alert('contraseña incorrecta')
+      setpassword('')
+      setCodigo('')
+    }
+     
 
   };
 
@@ -33,7 +50,7 @@ const Formulario = () => {
     <Contenedor>
       <Form action="" onSubmit={handleSubmit} className="formulario">
         <div>
-          <label htmlFor="nombre">Codigo:</label>
+          <label htmlFor="codigo">Codigo:</label>
           <input
             type="text"
             name="nombre"
@@ -41,6 +58,15 @@ const Formulario = () => {
             id="nombre"
             value={codigo}
             onChange={handleInputCodigo}
+          />
+           <label htmlFor="password">Contraseña:</label>
+          <input
+            type="password"
+            name="password"
+            placeholder=""
+            id="password"
+            value={password}
+            onChange={ (e)=> setpassword(e.target.value) }
           />
         </div>
 
