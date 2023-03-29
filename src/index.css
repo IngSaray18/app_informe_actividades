@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
-
+@import "rsuite/dist/rsuite.css";
+@import url('https://fonts.cdnfonts.com/css/times-new-roman');
 * {
 	padding: 0px;
 	margin: 0;

@@ -1,44 +1,55 @@
-import { onSnapshot, doc } from "firebase/firestore";
+import { onSnapshot, doc, getDoc } from "firebase/firestore";
 import { db } from "./../firebase/firebase.Config";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ContextoCodigo } from "../contexts/contextoCodigo";
 
-const Formulario = () => {
-  const navigate = useNavigate();
-  const {ingresar} = useContext(ContextoCodigo);
 
-     const [codigo, setCodigo] = useState("");
+
+const Formulario = () => {
+  
+       const [usuario, setUsuario] = useState({});
+
+  
+  const navigate = useNavigate();
+  const {ingresar } = useContext(ContextoCodigo);
+
+  const [codigo, setCodigo] = useState("");
      const [password, setpassword] = useState('');
-     const [usuario, setUsuario] = useState({});
+
+
+useEffect(() => {
+  if (password !== '') {
+    onSnapshot (doc(db, "profesores", codigo), (doc) =>{
+
+    setUsuario( doc.data())
+
+  })
+  }
+  
+}, [password]);
 
   // Funcion que se encargara de validar los datos y enviar el formulario
-  const handleSubmit = async (e) => {
+  const handleSubmit =  async (e) => {
     e.preventDefault();
 
-
-   onSnapshot(doc(db, "profesores", codigo), (doc) => {
-      setUsuario(doc.data());
-    })
+  
     if (usuario.password === password) {
+      console.log(codigo);
       ingresar(codigo)
-      setCodigo('')
       setpassword('')
       navigate('/perfil')
     }else{ 
-      alert('contraseña incorrecta')
+      
       setpassword('')
-      setCodigo('')
-    }
-     
-
+      console.log(usuario.password , password)
+    }     
   };
 
   // Funcion que se encarga de cambiar el estado del inputNombre
-  const handleInputCodigo = (e) => {
+  const handleInputCodigo = async (e) => {
     setCodigo(e.target.value);
-    
 
     
 

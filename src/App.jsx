@@ -3,6 +3,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import FormOficioCom from "./components/FormOficioCom";
 import FormularioActDispl from "./components/FormularioActDispl";
+import GenerarPDF from "./components/GenerarPDF";
 import Header from "./components/Header";
 import Inicio from "./components/Inicio";
 import MenuDocencia from "./components/MenuDocencia";
@@ -10,6 +11,7 @@ import OficioComision from "./components/OficioComision";
 import RegistroInforme from "./components/RegistroInforme";
 import SignIn from "./components/SignIn";
 import SingUp from "./components/SingUp";
+import VistaPDF from "./components/VistaPDF";
 
 const App = () => {
   return (
@@ -26,6 +28,8 @@ const App = () => {
   <Route path="/actualizacionDisiplinar" element={ <FormularioActDispl/> }/>
   <Route path="/OficioComision" element={ <OficioComision/> } />
   <Route path="/FormOficioCom" element={ <FormOficioCom/> } />
+  <Route path="/PDFview" element={ <GenerarPDF/> }  />
+  <Route path="/PDF" element={ <VistaPDF/>} />
   </Routes>
   
 
