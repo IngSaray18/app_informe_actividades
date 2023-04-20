@@ -35,17 +35,10 @@ const Inicio = () => {
 					</FichaInfo>
 					<FichaInfo></FichaInfo>
 				</ContenedorInfo>
-				<Subtitulo>Informes:</Subtitulo>
-			</ContenedorEncabezado>
+							</ContenedorEncabezado>
 
-			<Lista>
-				<ListaItem>2019</ListaItem>
-				<ListaItem>2020</ListaItem>
-				<ListaItem>2021</ListaItem>
-				<ListaItem>2022</ListaItem>
-			</Lista>
-			<NavLink to={"/registro"}>
-				<Boton>agregar nuevo informe</Boton>
+			<NavLink to={"/OficioComision"}>
+				<Boton>Nuevo oficio de comision</Boton>
 			</NavLink>
 		</>
 	);
@@ -80,7 +73,7 @@ const ListaItem = styled.li`
 `;
 const Boton = styled.button`
 	margin-top: 10px;
-	background: #0085ff;
+	background: #2B475C;
 	font-weight: 600;
 	font-family: "Open Sans", sans-serif;
 	border: none;
@@ -92,7 +85,7 @@ const Boton = styled.button`
 	font-size: 16px;
 	transition: 0.3s ease all;
 	:hover {
-		background: #0051ff;
+		background: #2B475C;
 	}
 `;
 const ContenedorInfo = styled.div`

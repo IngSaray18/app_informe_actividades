@@ -137,7 +137,7 @@ export const Form = styled.form`
   }
   button[type="submit"] {
     display: block;
-    background: #0085ff;
+    background: #2B475C;
     font-weight: 600;
     font-family: "Open Sans", sans-serif;
     border: none;
@@ -151,7 +151,7 @@ export const Form = styled.form`
   }
 
   button[type="submit"]:hover {
-    background: #0051ff;
+    background: #2B475C;
   }
 
   input[type="radio"] {

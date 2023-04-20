@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
+import logo from '../assets/Standard Logo Files/WhiteonTransparent.png'
 const Header = () => {
 	const goBack = () => {
 		console.log('h eb e');
@@ -10,7 +11,7 @@ const Header = () => {
   return (
     <Contenedor >
         <div>
-            <NavLink to={'/perfil'} > <h1>DERN App</h1> </NavLink> 
+            <NavLink to={'/perfil'} > <Img src={ logo } alt="fopto"   /> </NavLink> 
         </div>
         <div> 
            <NavLink to={'/OficioComision'} ><AddOutlinedIcon fontSize='large'  /></NavLink> 
@@ -27,7 +28,7 @@ display: flex;
 flex-direction: row;
 justify-content: space-between;
 overflow: hidden;
-  background-color: #0085FF;
+  background-color: #2B475C;
   padding: 10px 10px;
   text-align: center;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -46,7 +47,7 @@ justify-content: space-between;
 const Boton = styled.button`
   
     display: block;
-    background: #0085ff;
+    background: #2B475C;
     font-weight: 600;
     font-family: "Open Sans", sans-serif;
     border: none;
@@ -58,6 +59,11 @@ const Boton = styled.button`
     font-size: 16px;
     transition: 0.3s ease all;
   
+`
+const Img = styled.img`
+  height: 100%;
+
+  max-width: 50vh;
 `
 
 export default Header;

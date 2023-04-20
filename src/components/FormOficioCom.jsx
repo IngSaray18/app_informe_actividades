@@ -12,6 +12,8 @@ import { ContextoCodigo } from "../contexts/contextoCodigo";
 import { vehiculos } from "../Data/vehiculos";
 import { DateRangePicker, Modal } from "rsuite";
 import { useNavigate } from "react-router-dom";
+import { profesores } from "../Data/profesores";
+import { TagPicker } from "rsuite";
 
 const FormOficioCom = () => {
 	const navigate = useNavigate();
@@ -25,7 +27,7 @@ const FormOficioCom = () => {
 	const [actividades, setactividades] = useState("");
 	const [fecha, setfecha] = useState([null, null]);
 	const [vehiculo, setVehiculo] = useState([]);
-	const [personalDern, setpersonalDern] = useState("");
+	const [personalDern, setpersonalDern] = useState([]);
 	const [personasExtra, setPersonasExtra] = useState("");
 
 	useEffect(() => {
@@ -83,15 +85,11 @@ const FormOficioCom = () => {
 				numero_vehiculo: numeroVehiculo,
 			});
 			alert("registrado correctamente con el ID: " + docRef.id);
-			 guadarIdOficio ( docRef.id)
-			 			 navigate("/PDFview");		
+			guadarIdOficio(docRef.id);
+			navigate("/PDFview");
 		} catch (error) {
 			console.log(error);
 		}
-
-		
-					
-
 	};
 
 	const handleOnChange = (e) => {
@@ -105,6 +103,10 @@ const FormOficioCom = () => {
 			setVehiculo([...vehiculo, e.target.value]);
 		}
 	};
+
+	const handlePersonal = ( e ) => {
+		setpersonalDern( [...personalDern , e.target.value] )		
+	}
 
 	return (
 		<>
@@ -128,7 +130,8 @@ const FormOficioCom = () => {
 					onChange={(e) => setactividades(e.target.value)}
 				/>
 				<label htmlFor="fecha">Fecha:</label>
-				<DateRangePicker className="Texto"
+				<DateRangePicker
+					className="Texto"
 					showOneCalendar
 					block
 					format="dd-MM-yyyy"
@@ -200,21 +203,43 @@ const FormOficioCom = () => {
 						</select>
 					</VehicleField>
 				) : null}
-				<div>
+				<Profesorfield>
 					<label htmlFor="acompanniantes">
 						Acompañantes pertenecientes al personal adscrito al DERN
-						(profesores, técnicos y administrativos).
+						(profesores, técnicos y administrativos) por favor separa por comas
+						cada nombre .
 					</label>
-					<input
+
+					<TagPicker
+						data={profesores.map((profesor) => ({
+							label: profesor.NOMBRE1,
+							value: profesor.NOMBRE1,
+						}))}
+
+						onChange={ (e) =>handlePersonal(e) }
+						block
+					/>
+
+					{/* <select>
+						{ profesores.map( (profesor)=>{
+							return (
+							 <option>
+								{ profesor.NOMBRE1 }
+							 </option>
+							)
+						} ) }
+					</select> */}
+					{/* <input
 						type="text"
 						name="acompanniantes"
 						id="acompanniantes"
 						className="Texto"
 						placeholder={ usuario.nombre }
 						value={personalDern}
-						onChange={(e) => setpersonalDern(e.target.value)}
-					/>
-				</div>
+						onChange={(e) => setpersonalDern(e.target.value)
+						}
+					/> */}
+				</Profesorfield>
 
 				<div>
 					<label htmlFor="acompanniantesComisionado">
@@ -284,7 +309,7 @@ const Opciones = styled.div`
 `;
 const Boton = styled.button`
 	margin-top: 10px;
-	background: #0085ff;
+	background: #2B475C;
 	font-weight: 600;
 	font-family: "Open Sans", sans-serif;
 	border: none;
@@ -301,6 +326,24 @@ const Boton = styled.button`
 `;
 
 const VehicleField = styled.div`
+	select {
+		font-family: "Open Sans", sans-serif;
+		width: 100%;
+		border-radius: 5px;
+		border: 2px solid #e2e2e2;
+		font-size: 18px;
+		padding: 10px;
+		margin-bottom: 5px;
+		color: #1f1f1f;
+	}
+	display: block;
+	font-weight: 600;
+	font-size: 20px;
+	margin-bottom: 5px;
+	color: #1f1f1f;
+`;
+
+const Profesorfield = styled.div`
 	select {
 		font-family: "Open Sans", sans-serif;
 		width: 100%;

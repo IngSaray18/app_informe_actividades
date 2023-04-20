@@ -10,29 +10,46 @@ import {
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { ContextoCodigo } from "../contexts/contextoCodigo";
-import { db } from "../firebase/firebase.Config";
+
 import logo from "../assets/LOg.png";
 import encabezado from "../assets/Encabezado.png";
 import footer from "../assets/footer.png";
+import { profesores } from "../Data/profesores";
 const VistaPDF = () => {
-	const { IdOficio } = useContext(ContextoCodigo);
+	const { Oficio } = useContext(ContextoCodigo);
+	const [personal, setpersonal] = useState();
+		const [diaIda, setdiaIda] = useState();
+		const [mesIda, setmesIda] = useState();
+		const [annioIda, setannioIda] = useState();
 
-	const [Oficio, setOficio] = useState({});
-	const [idOfic, setidOfic] = useState(IdOficio);
+
+		const [diaRegreso, setdiaRegreso] = useState();
+		const [mesregreso, setmesregreso] = useState();
+		const [annioRegreso, setannioRegreso] = useState();
+
+
+	
 
 	useEffect(() => {
-		const getData = async () => {
-			setidOfic(IdOficio);
-			console.log(idOfic);
-			const docRef = doc(db, "oficio_comision", idOfic);
-			const docSnap = await getDoc(docRef);
+			const fecha = Oficio.fecha[0].toDate()
+			const fecha2 = Oficio.fecha[1].toDate()
 
-			setOficio(docSnap.data());
-		};
-		getData();
 
-		console.log(Oficio);
-	}, []);
+			
+
+			
+setmesIda( fecha.getMonth() + 1 )	
+setdiaIda( fecha.getDate()  )
+setannioIda( fecha.getFullYear() )
+
+setdiaRegreso( fecha2.getDate() )
+setmesregreso( fecha2.getMonth() + 1 )
+setannioRegreso( fecha2.getFullYear() )
+		console.log( profesores[0].CATEGORIA2 );
+
+
+	}, [  ]);
+
 	const styles = StyleSheet.create({
 		title: {
 			fontWeight: "heavy",
@@ -109,24 +126,66 @@ const VistaPDF = () => {
 							</Text>
 						</View>
 						<View style={styles.contenido}>
-							<Text>{Oficio.nombre_solicitante}</Text>
-							<Text></Text>
-							<Text></Text>
+							
 							<Text>Presente.–</Text>
 							<Text style={styles.parrafo}>
-								Sírvase trasladar a: {Oficio.lugar_traslado} para realizar las actividades que a
-								continuación se detallan: 
+								Sírvase trasladar a: {Oficio.lugar_traslado} para realizar las
+								actividades que a continuación se detallan:
 							</Text>
-							<Text style={ styles.parrafo } >{Oficio.actividades_a_realizar}</Text>
 							<Text style={styles.parrafo}>
-								Dicho trabajo se llevará a cabo en el periodo comprendido los
-								días utilizando {  }, y reportará a este Departamento los
-								resultados de la comisión.
+								{Oficio.actividades_a_realizar}
+							</Text>
+							<Text style={styles.parrafo}>
+								Dicho trabajo se llevará a cabo en el periodo comprendido del dia{' '}
+								 { diaIda }/{ mesIda }/{annioIda} al {diaRegreso}/{mesregreso}/{annioRegreso} utilizando{" "}
+								{Oficio.medio_transporte.map((element, index) => {
+									if (element === "oficial") {
+										switch (index) {
+											case 0:
+												return (
+													<Text key={index} style={styles.parrafo}>
+														{" "}
+														Un vehiculo {element} numero:{" "}
+														{Oficio.numero_vehiculo}{" "}
+													</Text>
+												);
+
+											case 1:
+												
+													return (
+														<Text key={index} style={styles.parrafo}>
+															{" "}
+														 	y un vehiculo {element} numero:{" "}
+															{Oficio.numero_vehiculo}{" "}
+														</Text>
+													);
+												
+										}
+									}
+									if (element === "personal") {
+										if (index > 0) {
+											return (
+												<Text key={index} style={styles.parrafo}>
+													{" "}
+													y un vehiculo {element}{" "}
+												</Text>
+											);
+										} else {
+											return (
+												<Text key={index} style={styles.parrafo}>
+													un vehiculo {element}{" "}
+												</Text>
+											);
+										}
+									}
+								})}
+								, y reportará a este Departamento los resultados de la comisión.
 							</Text>
 
 							<Text style={styles.parrafo}>
 								Las siguientes personas van como acompañantes, bajo la
-								responsabilidad de los comisionados: { Oficio.acompanniantes_extra}
+								responsabilidad de los comisionados:{" "}
+								{Oficio.acompanniantes_extra}
 							</Text>
 
 							<Text style={styles.parrafo}>

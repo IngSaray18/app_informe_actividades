@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { ContextoCodigo } from '../contexts/contextoCodigo'
 import { db } from '../firebase/firebase.Config';
 const GenerarPDF = () => {
-const { IdOficio }= useContext( ContextoCodigo )
+const { IdOficio , guardarOficio }= useContext( ContextoCodigo )
+
 const navigate = useNavigate()
 const [Oficio, setOficio] = useState({});
 const [idOfic, setidOfic] = useState(IdOficio);
@@ -13,18 +14,20 @@ const [idOfic, setidOfic] = useState(IdOficio);
 
 useEffect(() => {
 
-     const  getData =async () =>{  
+     const  getData = async () =>{  
         setidOfic( IdOficio )
         console.log(idOfic);
    const docRef = doc( db, 'oficio_comision', idOfic )
    const docSnap = await getDoc(docRef);
 
-   setOficio( docSnap.data())
-     
+   guardarOficio(docSnap.data())
+   setOficio( docSnap.data() )
+       
 }
      getData(); 
 
-     console.log( Oficio );
+     console.log(Oficio.fecha);     
+
  }, []);
 
   return ( 
