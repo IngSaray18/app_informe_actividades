@@ -60,7 +60,7 @@ const FormOficioCom = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		console.log(vehiculo);
+		console.log(personalDern);
 		try {
 			await addDoc(collection(db, `/profesores/${codigo}/oficios_comision/`), {
 				acompanniantes_DERN: personalDern,
@@ -104,9 +104,7 @@ const FormOficioCom = () => {
 		}
 	};
 
-	const handlePersonal = ( e ) => {
-		setpersonalDern( [...personalDern , e.target.value] )		
-	}
+	
 
 	return (
 		<>
@@ -131,25 +129,19 @@ const FormOficioCom = () => {
 				/>
 				<label htmlFor="fecha">Fecha:</label>
 				<DateRangePicker
-					className="Texto"
+					className=""
 					showOneCalendar
 					block
 					format="dd-MM-yyyy"
 					onOk={(Date) => {
 						setfecha(Date);
 					}}
+					size="lg"
 				/>
-				{/* \				 <label htmlFor="Fecha">Fecha Programada</label>
-				<input
-					type="date"
-					name="Fecha"
-					className="Texto"
-					value={fecha}
-					onChange={(e) => setfecha(e.target.value)}
-				/>  */}
+				
 
-				<fieldset>
-					<legend>Medio de transporte (Puede saleccionar mas de uno):</legend>
+				<>
+					<label>Medio de transporte (Puede saleccionar mas de uno):</label>
 					<Opciones>
 						<div>
 							<input
@@ -183,8 +175,9 @@ const FormOficioCom = () => {
 							<label htmlFor="horns">Vehiculo particular</label>
 						</div>
 					</Opciones>
-				</fieldset>
+				</>
 				{showNumeroVehiculo ? (
+					
 					<VehicleField>
 						<label htmlFor="numeroVehiculo">Numero de Vehiculo:</label>
 						<select
@@ -206,39 +199,21 @@ const FormOficioCom = () => {
 				<Profesorfield>
 					<label htmlFor="acompanniantes">
 						Acompañantes pertenecientes al personal adscrito al DERN
-						(profesores, técnicos y administrativos) por favor separa por comas
-						cada nombre .
+						(profesores, técnicos y administrativos)
 					</label>
 
-					<TagPicker
+					<TagPicker 
+						size="lg"
+						trigger='Enter'
 						data={profesores.map((profesor) => ({
 							label: profesor.NOMBRE1,
 							value: profesor.NOMBRE1,
-						}))}
+							
 
-						onChange={ (e) =>handlePersonal(e) }
+						}))}
+					onChange={ ( value,e ) => setpersonalDern( [...personalDern , e.target.value] ) }
 						block
 					/>
-
-					{/* <select>
-						{ profesores.map( (profesor)=>{
-							return (
-							 <option>
-								{ profesor.NOMBRE1 }
-							 </option>
-							)
-						} ) }
-					</select> */}
-					{/* <input
-						type="text"
-						name="acompanniantes"
-						id="acompanniantes"
-						className="Texto"
-						placeholder={ usuario.nombre }
-						value={personalDern}
-						onChange={(e) => setpersonalDern(e.target.value)
-						}
-					/> */}
 				</Profesorfield>
 
 				<div>
@@ -294,11 +269,20 @@ export const Form = styled.form`
 		margin-bottom: 5px;
 		color: #1f1f1f;
 	}
+	
 `;
 
 const Opciones = styled.div`
 	display: flex;
 	flex-direction: row;
+	font-family: "Open Sans", sans-serif;
+		width: 100%;
+		border-radius: 5px;
+		border: 2px solid #e2e2e2;
+		font-size: 18px;
+		padding: 10px;
+		margin-bottom: 5px;
+		color: #1f1f1f;
 
 	div {
 		display: flex;
@@ -321,7 +305,7 @@ const Boton = styled.button`
 	font-size: 16px;
 	transition: 0.3s ease all;
 	:hover {
-		background: #0051ff;
+		background: #213748;
 	}
 `;
 

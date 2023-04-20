@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const OficioComision = () => {
     return (
-        <>
+        <Fondo>
             <h1>Oficios de Comision</h1>
 
             <Subtitulo>INSTRUCCIONES PARA ELABORAR OFICIOS DE COMISIÓN DEL DERN A PARTIR DEL 07 DE MARZO DE 2023</Subtitulo>
@@ -31,7 +31,7 @@ const OficioComision = () => {
             </Lista>
             <NavLink to={'/FormOficioCom'} ><Boton>Solicitar nuevo oficio</Boton></NavLink>
             
-        </>
+        </Fondo>
     );
 }
 
@@ -48,7 +48,7 @@ li{
 `
 const Boton = styled.button`
 margin-top: 10px;
-  background: #0085ff;
+  background: #2B475C;
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
   border: none;
@@ -60,8 +60,12 @@ margin-top: 10px;
   font-size: 16px;
   transition: 0.3s ease all;
   :hover {
-    background: #0051ff;
+    background: #213748;
   }
 `;
+
+const Fondo = styled.div`
+    background-color: white;
+`
 
 export default OficioComision;

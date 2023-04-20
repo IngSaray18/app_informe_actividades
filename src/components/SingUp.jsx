@@ -171,7 +171,7 @@ export const Form = styled.form`
   }
 
   button[type="submit"]:hover {
-    background: #0051ff;
+    background: #213748;
   }
 
   input[type="radio"] {

@@ -42,7 +42,7 @@ useEffect(() => {
 }
 const Boton = styled.button`
 	margin-top: 10px;
-	background: #0085ff;
+	background: #2B475C;
 	font-weight: 600;
 	font-family: "Open Sans", sans-serif;
 	border: none;
@@ -54,7 +54,7 @@ const Boton = styled.button`
 	font-size: 16px;
 	transition: 0.3s ease all;
 	:hover {
-		background: #0051ff;
+		background: #213748;
 	}
 `;
 

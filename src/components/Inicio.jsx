@@ -22,16 +22,16 @@ const Inicio = () => {
 				<Titulo>Bienvenido {usuario.nombre} </Titulo>
 				<ContenedorInfo>
 					<FichaInfo>
-						<h3>Codigo:</h3>
-						<p>{usuario.codigo}</p>
+						<Subtitulo>Codigo:</Subtitulo>
+						<Parrafo>{usuario.codigo}</Parrafo>
 					</FichaInfo>
 					<FichaInfo>
-						<h3>Grado Academico:</h3>
-						<p>{usuario.grado}</p>
+						<Subtitulo>Grado Academico:</Subtitulo>
+						<Parrafo>{usuario.grado}</Parrafo>
 					</FichaInfo>
 					<FichaInfo>
-						<h3>Nombramiento:</h3>
-						<p>{usuario.nombramiento}</p>
+						<Subtitulo>Nombramiento:</Subtitulo>
+						<Parrafo>{usuario.nombramiento}</Parrafo>
 					</FichaInfo>
 					<FichaInfo></FichaInfo>
 				</ContenedorInfo>
@@ -85,7 +85,7 @@ const Boton = styled.button`
 	font-size: 16px;
 	transition: 0.3s ease all;
 	:hover {
-		background: #2B475C;
+		background: #213748;
 	}
 `;
 const ContenedorInfo = styled.div`
@@ -110,4 +110,7 @@ const Subtitulo = styled.h3`
 const ContenedorEncabezado = styled.div`
 	background-color: white;
 `;
+const Parrafo = styled.p`
+	font-size: x-large;
+`
 export default Inicio;

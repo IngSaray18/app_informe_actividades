@@ -18,37 +18,27 @@ import { profesores } from "../Data/profesores";
 const VistaPDF = () => {
 	const { Oficio } = useContext(ContextoCodigo);
 	const [personal, setpersonal] = useState();
-		const [diaIda, setdiaIda] = useState();
-		const [mesIda, setmesIda] = useState();
-		const [annioIda, setannioIda] = useState();
+	const [diaIda, setdiaIda] = useState();
+	const [mesIda, setmesIda] = useState();
+	const [annioIda, setannioIda] = useState();
 
-
-		const [diaRegreso, setdiaRegreso] = useState();
-		const [mesregreso, setmesregreso] = useState();
-		const [annioRegreso, setannioRegreso] = useState();
-
-
-	
+	const [diaRegreso, setdiaRegreso] = useState();
+	const [mesregreso, setmesregreso] = useState();
+	const [annioRegreso, setannioRegreso] = useState();
 
 	useEffect(() => {
-			const fecha = Oficio.fecha[0].toDate()
-			const fecha2 = Oficio.fecha[1].toDate()
+		const fecha = Oficio.fecha[0].toDate();
+		const fecha2 = Oficio.fecha[1].toDate();
 
+		setmesIda(fecha.getMonth() + 1);
+		setdiaIda(fecha.getDate());
+		setannioIda(fecha.getFullYear());
 
-			
-
-			
-setmesIda( fecha.getMonth() + 1 )	
-setdiaIda( fecha.getDate()  )
-setannioIda( fecha.getFullYear() )
-
-setdiaRegreso( fecha2.getDate() )
-setmesregreso( fecha2.getMonth() + 1 )
-setannioRegreso( fecha2.getFullYear() )
-		console.log( profesores[0].CATEGORIA2 );
-
-
-	}, [  ]);
+		setdiaRegreso(fecha2.getDate());
+		setmesregreso(fecha2.getMonth() + 1);
+		setannioRegreso(fecha2.getFullYear());
+		console.log(profesores[0].CATEGORIA2);
+	}, []);
 
 	const styles = StyleSheet.create({
 		title: {
@@ -126,7 +116,9 @@ setannioRegreso( fecha2.getFullYear() )
 							</Text>
 						</View>
 						<View style={styles.contenido}>
-							
+							{ Oficio.acompanniantes_DERN.map( (personas, index)=>{
+								return <Text key={index} > { personas } </Text>
+							} ) }
 							<Text>Presente.–</Text>
 							<Text style={styles.parrafo}>
 								Sírvase trasladar a: {Oficio.lugar_traslado} para realizar las
@@ -136,8 +128,9 @@ setannioRegreso( fecha2.getFullYear() )
 								{Oficio.actividades_a_realizar}
 							</Text>
 							<Text style={styles.parrafo}>
-								Dicho trabajo se llevará a cabo en el periodo comprendido del dia{' '}
-								 { diaIda }/{ mesIda }/{annioIda} al {diaRegreso}/{mesregreso}/{annioRegreso} utilizando{" "}
+								Dicho trabajo se llevará a cabo en el periodo comprendido del
+								dia {diaIda}/{mesIda}/{annioIda} al {diaRegreso}/{mesregreso}/
+								{annioRegreso} utilizando{" "}
 								{Oficio.medio_transporte.map((element, index) => {
 									if (element === "oficial") {
 										switch (index) {
@@ -151,15 +144,13 @@ setannioRegreso( fecha2.getFullYear() )
 												);
 
 											case 1:
-												
-													return (
-														<Text key={index} style={styles.parrafo}>
-															{" "}
-														 	y un vehiculo {element} numero:{" "}
-															{Oficio.numero_vehiculo}{" "}
-														</Text>
-													);
-												
+												return (
+													<Text key={index} style={styles.parrafo}>
+														{" "}
+														y un vehiculo {element} numero:{" "}
+														{Oficio.numero_vehiculo}{" "}
+													</Text>
+												);
 										}
 									}
 									if (element === "personal") {
