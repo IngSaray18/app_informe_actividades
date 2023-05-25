@@ -1,23 +1,35 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import logo from '../assets/Standard Logo Files/WhiteonTransparent.png'
+import { ContextoCodigo } from "../contexts/contextoCodigo";
+
 const Header = () => {
-	const goBack = () => {
-		console.log('h eb e');
-	}
+	
+  const { codigo } = useContext(ContextoCodigo);
+	const { ingresar } = useContext(ContextoCodigo);
+
+  const handleOnClick =()=>{
+
+    ingresar('')
+  }
+
   return (
     <Contenedor >
         <div>
-            <NavLink to={'/perfil'} > <Img src={ logo } alt="fopto"   /> </NavLink> 
-        </div>
-        <div> 
+            <NavLink to={ codigo? '/perfil': '/'} > <Img src={ logo } alt="fopto"   /> </NavLink> 
+        </div> 
+        
+          { codigo?
+          <div> 
            <NavLink to={'/OficioComision'} ><AddOutlinedIcon fontSize='large'  /></NavLink> 
-           <NavLink to={'/'} > <LogoutIcon fontSize='large' /> </NavLink> 
+           <NavLink to={'/'} onClick={ handleOnClick }  > <LogoutIcon fontSize='large' /></NavLink> 
            </div>
-
+          :
+          <></>
+          }
           </Contenedor>
   )
 }
@@ -25,6 +37,8 @@ const Header = () => {
 const Contenedor = styled.div`
 
 display: flex;
+position: sticky;
+top: 0px;
 flex-direction: row;
 justify-content: space-between;
 overflow: hidden;

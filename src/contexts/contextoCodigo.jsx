@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 const ContextoCodigo = React.createContext();
 
 const Proveedor = ({children}) => {  
-const [codigo, setcodigo] = useState('');
+const [codigo, setcodigo] = useState('21888');
 
  const [IdOficio, setIdOficio] = useState();
 const [Oficio, setOficio] = useState({});

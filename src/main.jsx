@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import Footer from "./components/Footer";
 import { Proveedor } from "./contexts/contextoCodigo";
 import "./index.css";
 
@@ -10,7 +11,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Proveedor>
     <BrowserRouter>
       <App />
+     
     </BrowserRouter>
+   
     </Proveedor>
-  </React.StrictMode>
+  </React.StrictMode>  
 );

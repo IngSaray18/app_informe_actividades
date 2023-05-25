@@ -5,12 +5,12 @@ import {
 	collection,
 	addDoc,
 	doc,
-	onSnapshot,
+	onSnapshot, 
 	getDocs,
 } from "firebase/firestore";
 import { ContextoCodigo } from "../contexts/contextoCodigo";
 import { vehiculos } from "../Data/vehiculos";
-import { DateRangePicker, Modal } from "rsuite";
+import { DateRangePicker, Loader, Message,  useToaster } from "rsuite";
 import { useNavigate } from "react-router-dom";
 import { profesores } from "../Data/profesores";
 import { TagPicker } from "rsuite";
@@ -20,16 +20,18 @@ const FormOficioCom = () => {
 	const { guadarIdOficio } = useContext(ContextoCodigo);
 	const [oficios, setoficios] = useState(0);
 	const [usuario, setUsuario] = useState({});
+
 	const [showNumeroVehiculo, setShowNumeroVehiculo] = useState(false);
+
 	const [numeroVehiculo, setNumeroVehiculo] = useState(358);
 	const { codigo } = useContext(ContextoCodigo);
 	const [lugar, setlugar] = useState("");
 	const [actividades, setactividades] = useState("");
-	const [fecha, setfecha] = useState([null, null]);
+	const [fecha, setfecha] = useState([null,null]);
 	const [vehiculo, setVehiculo] = useState([]);
 	const [personalDern, setpersonalDern] = useState([]);
 	const [personasExtra, setPersonasExtra] = useState("");
-
+	const [loading, setloading] = useState(false);
 	useEffect(() => {
 		onSnapshot(doc(db, "profesores", codigo), (doc) => {
 			setUsuario(doc.data());
@@ -57,42 +59,52 @@ const FormOficioCom = () => {
 		getData();
 	}, [oficios]);
 
+  const handleClose = () => setOpen(false);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
-		console.log(personalDern);
-		try {
-			await addDoc(collection(db, `/profesores/${codigo}/oficios_comision/`), {
-				acompanniantes_DERN: personalDern,
-				acompanniantes_extra: personasExtra,
-				actividades_a_realizar: actividades,
-				fecha: fecha,
-				lugar_traslado: lugar,
-				medio_transporte: vehiculo,
-				numero_vehiculo: numeroVehiculo,
-			});
-
-			const docRef = await addDoc(collection(db, "oficio_comision"), {
-				num_oficio: oficios,
-				nombre_solicitante: usuario.nombre,
-				codigo_solicitante: usuario.codigo,
-				acompanniantes_DERN: personalDern,
-				acompanniantes_extra: personasExtra,
-				actividades_a_realizar: actividades,
-				fecha: fecha,
-				lugar_traslado: lugar,
-				medio_transporte: vehiculo,
-				numero_vehiculo: numeroVehiculo,
-			});
-			alert("registrado correctamente con el ID: " + docRef.id);
-			guadarIdOficio(docRef.id);
-			navigate("/PDFview");
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	const handleOnChange = (e) => {
+			
+			// setloading(true)
+			
+			
+			try {
+				if (fecha[0] === null  || personalDern.length <= 0 || vehiculo.length <=0 ) {
+					toaster.push(message, {placement})
+				}else{
+					setloading( true )
+				await addDoc(collection(db, `/profesores/${codigo}/oficios_comision/`), {
+					acompanniantes_DERN: personalDern,
+					acompanniantes_extra: personasExtra,
+					actividades_a_realizar: actividades,
+					fecha: fecha,
+					lugar_traslado: lugar,
+					medio_transporte: vehiculo,
+					numero_vehiculo: numeroVehiculo,
+				});
+				
+				const docRef = await addDoc(collection(db, "oficio_comision"), {
+					num_oficio: oficios != -Infinity? oficios : 1,
+					nombre_solicitante: usuario.nombre,
+					codigo_solicitante: usuario.codigo,
+					acompanniantes_DERN: personalDern,
+					acompanniantes_extra: personasExtra,
+					actividades_a_realizar: actividades,
+					fecha: fecha,
+					lugar_traslado: lugar,
+					medio_transporte: vehiculo,
+					numero_vehiculo: numeroVehiculo,
+				});
+				setloading(false)
+				guadarIdOficio(docRef.id);
+				navigate("/PDFview");
+			 } } catch (error) {
+				console.log(error);
+			}
+			
+			
+		};
+		
+		const handleOnChange = (e) => {
 		if (vehiculo.includes(e.target.value)) {
 			if (vehiculo.includes("oficial")) {
 				setShowNumeroVehiculo(0);
@@ -103,14 +115,44 @@ const FormOficioCom = () => {
 			setVehiculo([...vehiculo, e.target.value]);
 		}
 	};
-
+	const handlePersonal = ( e)=>{
+		if (personalDern.includes( e.target.value)){
+			const index = personalDern.indexOf(e.target.value);
+			personalDern.splice(index,1)
+		}else{
+			setpersonalDern( [...personalDern , e.target.value] )
+		}
+	}
+	const handleClean = (e)=>{
+		setpersonalDern([])
+	}
+	
+	const [type, setType] =useState('warning');
+	const [placement, setPlacement] =useState('topCenter');
+	const toaster = useToaster();
+  
+	const message = (
+	  <Message showIcon type={type} closable>
+		{type}: porfavor llena todos los campos.
+	  </Message>
+	)
 	
 
 	return (
+
+		!loading?
 		<>
-			<Form action="" onSubmit={handleSubmit}>
+		
+		 
+		
+			
+		
+		
+			<Form  action="" onSubmit={handleSubmit}>
+				
 				<label htmlFor="Lugar">Lugar de traslado:</label>
 				<input
+					required
 					type="text"
 					className="Texto"
 					name="Lugar"
@@ -120,6 +162,8 @@ const FormOficioCom = () => {
 
 				<label htmlFor="story">Actividades a realizar:</label>
 				<textarea
+					required
+
 					id="story"
 					name="story"
 					rows="5"
@@ -128,7 +172,9 @@ const FormOficioCom = () => {
 					onChange={(e) => setactividades(e.target.value)}
 				/>
 				<label htmlFor="fecha">Fecha:</label>
+				
 				<DateRangePicker
+					
 					className=""
 					showOneCalendar
 					block
@@ -145,40 +191,54 @@ const FormOficioCom = () => {
 					<Opciones>
 						<div>
 							<input
+
 								type="checkbox"
-								id="scales"
-								name="scales"
+								id="oficial"
+								name="oficial"
 								value={"oficial"}
 								onChange={(e) => handleOnChange(e)}
 								onClick={() => setShowNumeroVehiculo(!showNumeroVehiculo)}
 							/>
-							<label htmlFor="scales">Vehiculo oficial</label>
+							<label htmlFor="oficial">Vehiculo oficial</label>
 						</div>
 						<div>
 							<input
 								type="checkbox"
-								id="horns"
-								name="horns"
+								id="personal"
+								name="personal"
 								value={"personal"}
 								onChange={(e) => handleOnChange(e)}
 							/>
-							<label htmlFor="horns">Vehiculo personal</label>
+							<label htmlFor="personal">Vehiculo personal</label>
 						</div>
 						<div>
 							<input
 								type="checkbox"
-								id="horns"
-								name="horns"
+								id="particular"
+								name="particular"
 								value={"particular"}
 								onChange={(e) => handleOnChange(e)}
 							/>
-							<label htmlFor="horns">Vehiculo particular</label>
+							<label htmlFor="particular">Vehiculo particular</label>
+						</div>
+						<div>
+							<input
+								type="checkbox"
+								id="otro"
+								name="otro"
+								value={"otro"}
+								onChange={(e) => handleOnChange(e)}
+							/>
+							<label htmlFor="otro"> Vehiculo de la ECLJ</label>
 						</div>
 					</Opciones>
 				</>
 				{showNumeroVehiculo ? (
 					
-					<VehicleField>
+					<VehicleField 
+					
+					
+					>
 						<label htmlFor="numeroVehiculo">Numero de Vehiculo:</label>
 						<select
 							value={numeroVehiculo}
@@ -203,15 +263,18 @@ const FormOficioCom = () => {
 					</label>
 
 					<TagPicker 
+					required
+
 						size="lg"
 						trigger='Enter'
 						data={profesores.map((profesor) => ({
-							label: profesor.NOMBRE1,
-							value: profesor.NOMBRE1,
+							label: profesor.NOMBRE3? profesor.NOMBRE3 : profesor.NOMBRE1,
+							value: profesor.NOMBRE3? `${profesor.NOMBRE3}, ${profesor.CATEGORIA2}` : `${profesor.NOMBRE1}, ${profesor.CATEGORIA2}`,
 							
 
 						}))}
-					onChange={ ( value,e ) => setpersonalDern( [...personalDern , e.target.value] ) }
+					onSelect={ ( value,item, e ) => handlePersonal(e) }
+					onClean={ (e)=>  handleClean(e) }
 						block
 					/>
 				</Profesorfield>
@@ -232,6 +295,13 @@ const FormOficioCom = () => {
 				<Boton type="submit">Solicitar</Boton>
 			</Form>
 		</>
+		:
+		
+		<Loader size="lg" backdrop content="Cargando..." vertical />
+		
+			
+			
+				  
 	);
 };
 

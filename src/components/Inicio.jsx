@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import Header from "./Header";
 import { db } from "./../firebase/firebase.Config";
-import { collection, getDoc, onSnapshot, doc } from "firebase/firestore";
+import {  onSnapshot, doc } from "firebase/firestore";
 import { ContextoCodigo } from "../contexts/contextoCodigo";
 
 const Inicio = () => {
@@ -15,11 +14,11 @@ const Inicio = () => {
 			setUsuario(doc.data());
 		});
 	}, []);
-
+ 
 	return (
 		<>
 			<ContenedorEncabezado>
-				<Titulo>Bienvenido {usuario.nombre} </Titulo>
+				<Titulo>{usuario.nombre}</Titulo>
 				<ContenedorInfo>
 					<FichaInfo>
 						<Subtitulo>Codigo:</Subtitulo>
@@ -30,8 +29,8 @@ const Inicio = () => {
 						<Parrafo>{usuario.grado}</Parrafo>
 					</FichaInfo>
 					<FichaInfo>
-						<Subtitulo>Nombramiento:</Subtitulo>
-						<Parrafo>{usuario.nombramiento}</Parrafo>
+						<Subtitulo>Categoria:</Subtitulo>
+						<Parrafo>{usuario.categoria}</Parrafo>
 					</FichaInfo>
 					<FichaInfo></FichaInfo>
 				</ContenedorInfo>
@@ -44,33 +43,8 @@ const Inicio = () => {
 	);
 };
 
-const Lista = styled.ul`
-	list-style: none;
-	height: 100%;
-	overflow: auto;
-	margin-top: 0px;
-	margin-bottom: 0px;
-`;
 
-const ListaItem = styled.li`
-	height: 60px;
-	padding: 0 20px;
-	align-items: center;
-	color: #4b4b4b;
-	font-size: 18px;
-	display: grid;
-	grid-template-columns: auto 1fr auto;
 
-	a {
-		text-decoration: none;
-	}
-	:nth-child(even) {
-		background: #f3f3f3;
-	}
-	:hover {
-		opacity: 0.5;
-	}
-`;
 const Boton = styled.button`
 	margin-top: 10px;
 	background: #2B475C;
@@ -95,7 +69,10 @@ const ContenedorInfo = styled.div`
 const FichaInfo = styled.div`
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between; ;
+	justify-content: space-between;
+	padding-right: 20px;
+	border: 1px solid;
+	
 `;
 
 const Titulo = styled.h1`
@@ -112,5 +89,6 @@ const ContenedorEncabezado = styled.div`
 `;
 const Parrafo = styled.p`
 	font-size: x-large;
+	padding-top: 20px;
 `
 export default Inicio;

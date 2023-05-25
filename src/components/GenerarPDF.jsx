@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ContextoCodigo } from '../contexts/contextoCodigo'
 import { db } from '../firebase/firebase.Config';
+import { Message } from 'rsuite';
+
 const GenerarPDF = () => {
 const { IdOficio , guardarOficio }= useContext( ContextoCodigo )
 
@@ -32,10 +34,10 @@ useEffect(() => {
 
   return ( 
     <div>
-<h1>  { Oficio.lugar_traslado} </h1>
-<P> {idOfic} </P>
-<P> {Oficio.nombre_solicitante} </P>
-
+      
+		<Message showIcon closable type="success" header="Success">
+     Oficio numero { Oficio.num_oficio} se registro correctamente
+ 	</Message>
 <Boton  onClick={ ()=> navigate('/PDF') } > Generar PDF </Boton>
     </div> 
   )

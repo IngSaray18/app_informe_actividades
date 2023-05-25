@@ -8,6 +8,7 @@ import {
 	StyleSheet,
 } from "@react-pdf/renderer";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { db } from "./../firebase/firebase.Config";
 import React, { useContext, useEffect, useState } from "react";
 import { ContextoCodigo } from "../contexts/contextoCodigo";
 
@@ -21,11 +22,28 @@ const VistaPDF = () => {
 	const [diaIda, setdiaIda] = useState();
 	const [mesIda, setmesIda] = useState();
 	const [annioIda, setannioIda] = useState();
+	const [mesLetra, setmesLetra] = useState();
 
 	const [diaRegreso, setdiaRegreso] = useState();
 	const [mesregreso, setmesregreso] = useState();
 	const [annioRegreso, setannioRegreso] = useState();
+	const { codigo } = useContext(ContextoCodigo);
+	const [usuario, setUsuario] = useState({});
+	const current = new Date();
+  	const date = `${current.getDate()}/${ convertirMes(current.getMonth()+1) }/${current.getFullYear()}`;
 
+
+	useEffect(() => {
+		onSnapshot(doc(db, "profesores", codigo), (doc) => {
+			setUsuario(doc.data());
+			if (profesores.includes( usuario.nombre)) {
+			 const nombre =	profesores.find(nombre=> nombre === profesores.NOMBRE1 )
+
+				console.log(nombre);
+			}
+			
+		});
+	}, []);
 	useEffect(() => {
 		const fecha = Oficio.fecha[0].toDate();
 		const fecha2 = Oficio.fecha[1].toDate();
@@ -37,8 +55,36 @@ const VistaPDF = () => {
 		setdiaRegreso(fecha2.getDate());
 		setmesregreso(fecha2.getMonth() + 1);
 		setannioRegreso(fecha2.getFullYear());
-		console.log(profesores[0].CATEGORIA2);
+
+		
 	}, []);
+
+	
+	function convertirMes(numeroMes) {
+		const meses = [
+		  "Enero",
+		  "Febrero",
+		  "Marzo",
+		  "Abril",
+		  "Mayo",
+		  "Junio",
+		  "Julio",
+		  "Agosto",
+		  "Septiembre",
+		  "Octubre",
+		  "Noviembre",
+		  "Diciembre"
+		];
+	  
+		if (numeroMes >= 1 && numeroMes <= 12) {
+		  return meses[numeroMes - 1];
+		} 
+	  }
+	  
+		
+		
+		
+
 
 	const styles = StyleSheet.create({
 		title: {
@@ -76,6 +122,7 @@ const VistaPDF = () => {
 			fontSize: 13,
 			marginTop: 20,
 			marginRight: 30,
+			marginBottom: 30,
 		},
 		contenido: {
 			marginTop: 10,
@@ -84,7 +131,7 @@ const VistaPDF = () => {
 			textAlign: "justify",
 		},
 		parrafo: {
-			marginTop: 30,
+			marginTop: 0,
 		},
 		footer: {
 			marginTop: 30,
@@ -96,8 +143,11 @@ const VistaPDF = () => {
 			marginTop: 30,
 			width: 350,
 		},
+		presente:{
+			marginBottom: 15,
+		}
 	});
-	return (
+	return ( 
 		<div>
 			<PDFViewer style={{ width: "100%", height: "100vh" }}>
 				<Document>
@@ -110,16 +160,25 @@ const VistaPDF = () => {
 							<Text style={styles.title}>OFICIO DE COMISIÓN </Text>
 						</View>
 						<View>
-							<Text style={styles.noOfdicio}>
-								{" "}
-								DERN/OC/{Oficio.num_oficio}/2023{" "}
-							</Text>
+						{
+						Oficio.num_oficio < 100?
+								Oficio.num_oficio < 10?
+								<Text style={ styles.noOfdicio}>DERN/OC/00{Oficio.num_oficio}/2023</Text>
+								
+								:
+								<Text style={ styles.noOfdicio}>DERN/OC/0{Oficio.num_oficio}/2023</Text>
+						:
+						          <Text style={ styles.noOfdicio}>DERN/OC/{Oficio.num_oficio}/2023</Text>
+						
+						}
 						</View>
 						<View style={styles.contenido}>
+						<Text>{usuario.nombre}, {usuario.categoria} </Text>
+
 							{ Oficio.acompanniantes_DERN.map( (personas, index)=>{
-								return <Text key={index} > { personas } </Text>
+								return <Text style={styles.nombres} key={index} >{personas} </Text>
 							} ) }
-							<Text>Presente.–</Text>
+							<Text style={styles.presente} >Presente.–</Text>
 							<Text style={styles.parrafo}>
 								Sírvase trasladar a: {Oficio.lugar_traslado} para realizar las
 								actividades que a continuación se detallan:
@@ -129,54 +188,39 @@ const VistaPDF = () => {
 							</Text>
 							<Text style={styles.parrafo}>
 								Dicho trabajo se llevará a cabo en el periodo comprendido del
-								dia {diaIda}/{mesIda}/{annioIda} al {diaRegreso}/{mesregreso}/
-								{annioRegreso} utilizando{" "}
+								dia {diaIda}/{ convertirMes(mesIda)}/{annioIda} al {diaRegreso}/{convertirMes(mesregreso)}/
+								{annioRegreso} 
+								
+								 {" "} utilizando{" "}
+									
+										 
+									
 								{Oficio.medio_transporte.map((element, index) => {
-									if (element === "oficial") {
-										switch (index) {
-											case 0:
-												return (
-													<Text key={index} style={styles.parrafo}>
-														{" "}
-														Un vehiculo {element} numero:{" "}
-														{Oficio.numero_vehiculo}{" "}
-													</Text>
-												);
+									if (element.length === 1 ) {
+										if (element=== 'oficial') {
 
-											case 1:
-												return (
-													<Text key={index} style={styles.parrafo}>
-														{" "}
-														y un vehiculo {element} numero:{" "}
-														{Oficio.numero_vehiculo}{" "}
-													</Text>
-												);
-										}
+											return <Text> un vehiculo {element} numero: { Oficio.numero_vehiculo },  </Text>
+		
+											}
+											return <Text> un vehiculo {element}  </Text>
 									}
-									if (element === "personal") {
-										if (index > 0) {
-											return (
-												<Text key={index} style={styles.parrafo}>
-													{" "}
-													y un vehiculo {element}{" "}
-												</Text>
-											);
-										} else {
-											return (
-												<Text key={index} style={styles.parrafo}>
-													un vehiculo {element}{" "}
-												</Text>
-											);
-										}
+
+								
+									if (element=== 'oficial') {
+
+									return <Text> un vehiculo {element} numero: { Oficio.numero_vehiculo },  </Text>
+
 									}
+									return <Text> un vehiculo {element},  </Text>
 								})}
-								, y reportará a este Departamento los resultados de la comisión.
+								y reportará a este Departamento los resultados de la comisión.
 							</Text>
 
 							<Text style={styles.parrafo}>
 								Las siguientes personas van como acompañantes, bajo la
 								responsabilidad de los comisionados:{" "}
-								{Oficio.acompanniantes_extra}
+							{Oficio.acompanniantes_extra}
+								
 							</Text>
 
 							<Text style={styles.parrafo}>
@@ -188,9 +232,9 @@ const VistaPDF = () => {
 						<View style={styles.footer}>
 							<Text>A t e n t a m e n t e</Text>
 							<Text>“Piensa y Trabaja” </Text>
-							<Text> “2023, Año del fomento a la formación integral </Text>
+							<Text> "{current.getFullYear()}, Año del fomento a la formación integral </Text>
 							<Text> con una Red de Centros y Sistemas Multitemáticos” </Text>
-							<Text>Autlán de Navarro, Jalisco, —.</Text>
+							<Text>Autlán de Navarro, Jalisco, {date}.</Text>
 						</View>
 						<View style={styles.footer}>
 							<Text>Mtra. Judith Cevallos Espinosa</Text>

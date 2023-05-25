@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import styled from "styled-components";
 import FormOficioCom from "./components/FormOficioCom";
 import GenerarPDF from "./components/GenerarPDF";
 import Header from "./components/Header";
@@ -9,7 +10,7 @@ import OficioComision from "./components/OficioComision";
 import SignIn from "./components/SignIn";
 import SingUp from "./components/SingUp";
 import VistaPDF from "./components/VistaPDF";
-
+import Admin from "./components/Admin";
 const App = () => {
   return (
     <>
@@ -24,9 +25,8 @@ const App = () => {
   <Route path="/FormOficioCom" element={ <FormOficioCom/> } />
   <Route path="/PDFview" element={ <GenerarPDF/> }  />
   <Route path="/PDF" element={ <VistaPDF/>} />
-  </Routes>
-  
-
+  <Route path="/admin" element={ <Admin/> }  />
+  </Routes >
   </div>
     </>
   );

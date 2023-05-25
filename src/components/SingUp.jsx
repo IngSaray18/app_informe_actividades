@@ -3,23 +3,25 @@ import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { db } from "./../firebase/firebase.Config";
 import { collection, addDoc, setDoc , doc } from "firebase/firestore";
+import { Loader } from 'rsuite';
 
 const SingUp = () => {
   const [nombre, setNombre] = useState("");
   const [codigo, setCodigo] = useState('');
   const [grado, setGrado] = useState("");
-  const [nombramiento, setNombramiento] = useState("");
+  const [categoria, setCategoria] = useState("");
   const [password, setpassword] = useState('');
   const [confirmepass, setConfirmepass] = useState('');
+  const [loading, setloading] = useState(false);
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
+    setloading(true)
     e.preventDefault();
     const datos = {
       nombre: nombre,
       codigo: codigo,
       grado: grado,
-      nombramiento: nombramiento,
+      categoria: categoria,
       password: password
     
     };
@@ -27,10 +29,14 @@ const SingUp = () => {
     
 try {
   
+  
   if (password === confirmepass ) {
-    await setDoc( doc(db,'profesores', codigo), datos)
+    
+    await setDoc( doc(db,'profesores', codigo), datos) 
+    setloading(false)
     navigate('/')
     console.log('listo');
+
     setCodigo('')
     setNombramiento('')
     setNombre('')
@@ -50,6 +56,7 @@ try {
   };
 
   return (
+    !loading ?
     <div>
       <Contenedor>
         <Form action="" onSubmit={handleSubmit} className="formulario">
@@ -64,11 +71,12 @@ try {
               onChange={(e) => setCodigo(e.target.value)}
             />
 
-            <label htmlFor="Nombre">Nombre Completo:</label>
+            <label htmlFor="Nombre">Nombre Completo (con grado academico) :</label>
             <input
               type="text"
               name="Nombre"
               id="Nombre"
+              placeholder="ej. M.C. Pedro Saray Cevallos"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
             />
@@ -81,14 +89,14 @@ try {
               value={grado}
               onChange={(e) => setGrado(e.target.value)}
             />
-            <label htmlFor="Nombramiento">Nombramiento:</label>
+            <label htmlFor="Categoria">Categoria:</label>
             <input
               type="text"
-              name="Nombramiento"
-              id="Nombramiento"
-              placeholder="ej. Prof. Asociado"
-              value={nombramiento}
-              onChange={(e) => setNombramiento(e.target.value)}
+              name="Categoria"
+              id="Categoria"
+              placeholder="ej. Profesor Investigador Asociado"
+              value={categoria}
+              onChange={(e) => setCategoria(e.target.value)}
             />
             <label htmlFor="password">Introduzca contraseña</label>
               <input type="password" 
@@ -109,6 +117,8 @@ try {
         </Form>
       </Contenedor>
     </div>
+    :
+    <Loader size="lg" backdrop content="Cargando..." vertical />
   );
 };
 
