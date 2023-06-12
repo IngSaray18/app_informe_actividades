@@ -15,7 +15,9 @@ import { ContextoCodigo } from "../contexts/contextoCodigo";
 import logo from "../assets/LOg.png";
 import encabezado from "../assets/Encabezado.png";
 import footer from "../assets/footer.png";
+import LOGOS from "../assets/LOGOS.png"
 import { profesores } from "../Data/profesores";
+import { Columns } from "@rsuite/icons";
 const VistaPDF = () => {
 	const { Oficio } = useContext(ContextoCodigo);
 	const [personal, setpersonal] = useState();
@@ -88,7 +90,7 @@ const VistaPDF = () => {
 
 	const styles = StyleSheet.create({
 		title: {
-			fontWeight: "heavy",
+			fontWeight: "strong",
 			textAlign: "center",
 			fontSize: 14,
 			marginTop: 15,
@@ -125,27 +127,30 @@ const VistaPDF = () => {
 			marginBottom: 30,
 		},
 		contenido: {
-			marginTop: 10,
+			marginTop: 0,
 			marginLeft: 100,
 			marginRight: 50,
 			textAlign: "justify",
 		},
 		parrafo: {
-			marginTop: 0,
+			marginTop: 5,
 		},
 		footer: {
 			marginTop: 30,
+			marginLeft:2,
 			textAlign: "center",
 			fontSize: 13,
 		},
 		footerImg: {
-			alignSelf: "center",
+			marginLeft: 30,
 			marginTop: 30,
-			width: 350,
-		},
+			width: 400,
+			height: 60,
+				},
 		presente:{
 			marginBottom: 15,
-		}
+		},
+		
 	});
 	return ( 
 		<div>
@@ -157,7 +162,7 @@ const VistaPDF = () => {
 							<Image src={encabezado} style={styles.head} />
 						</View>
 						<View>
-							<Text style={styles.title}>OFICIO DE COMISIÓN </Text>
+						<b> 	<Text style={styles.title}>    OFICIO DE COMISIÓN   </Text></b> 
 						</View>
 						<View>
 						{
@@ -184,7 +189,7 @@ const VistaPDF = () => {
 								actividades que a continuación se detallan:
 							</Text>
 							<Text style={styles.parrafo}>
-								{Oficio.actividades_a_realizar}
+							{Oficio.actividades_a_realizar}
 							</Text>
 							<Text style={styles.parrafo}>
 								Dicho trabajo se llevará a cabo en el periodo comprendido del
@@ -216,10 +221,18 @@ const VistaPDF = () => {
 								y reportará a este Departamento los resultados de la comisión.
 							</Text>
 
-							<Text style={styles.parrafo}>
+							<Text style={ styles.parrafo }>
 								Las siguientes personas van como acompañantes, bajo la
-								responsabilidad de los comisionados:{" "}
-							{Oficio.acompanniantes_extra}
+								responsabilidad de los comisionados:
+								 {'\n'}
+									{
+							 Oficio.acompanniantes_extra.split(',').map( (nombre)=>{
+								return<Text style={ styles.parrafo } >{'\n'} •{"    "}{nombre}</Text>
+							 } )
+
+							 }
+								
+							
 								
 							</Text>
 
@@ -243,7 +256,12 @@ const VistaPDF = () => {
 
 						<View>
 							<Image src={footer} style={styles.footerImg} />
+							
 						</View>
+						<View>
+							
+						</View>
+
 					</Page>
 				</Document>
 			</PDFViewer>

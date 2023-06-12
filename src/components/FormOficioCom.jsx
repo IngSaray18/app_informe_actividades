@@ -169,6 +169,7 @@ const FormOficioCom = () => {
 					rows="5"
 					cols="33"
 					value={actividades}
+					placeholder="•Práctica de campo con estudiantes de la materia de Botánica II de la Carrera de IRNA.      •Muestreo del proyecto de investigación “Árboles del bosque mesófilo”. "
 					onChange={(e) => setactividades(e.target.value)}
 				/>
 				<label htmlFor="fecha">Fecha:</label>
@@ -281,10 +282,11 @@ const FormOficioCom = () => {
 
 				<div>
 					<label htmlFor="acompanniantesComisionado">
-						Acompañantes bajo la responsabilidad de los comisionados:
+						Acompañantes bajo la responsabilidad de los comisionados (Separar por comas cada nombre)
 					</label>
 					<input
 						type="text"
+						placeholder=" Juan Lopez Perez estudiante Irna Imss: 231213, Pedro Perez... "
 						name="acompanniantesComisionado"
 						id="acompanniantesComisionado"
 						className="Texto"
