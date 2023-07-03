@@ -10,11 +10,11 @@ import {
 } from "firebase/firestore";
 import { ContextoCodigo } from "../contexts/contextoCodigo";
 import { vehiculos } from "../Data/vehiculos";
-import { DateRangePicker, Loader, Message,  useToaster } from "rsuite";
+import { DateRangePicker, Loader, Message,  useToaster, Input, InputGroup, } from "rsuite";
 import { useNavigate } from "react-router-dom";
 import { profesores } from "../Data/profesores";
 import { TagPicker } from "rsuite";
-
+import AddOutlineIcon from '@rsuite/icons/AddOutline';
 const FormOficioCom = () => {
 	const navigate = useNavigate();
 	const { guadarIdOficio } = useContext(ContextoCodigo);
@@ -22,7 +22,11 @@ const FormOficioCom = () => {
 	const [usuario, setUsuario] = useState({});
 
 	const [showNumeroVehiculo, setShowNumeroVehiculo] = useState(false);
-
+	const [nombreExtra, setnombreExtra] = useState();
+	const [Relacion, setRelacion] = useState();
+	const [IMSS, setIMSS] = useState();
+	const [Acompanniate, setAcompanniate] = useState([]);
+	const [codigoacompanniante, setcodigoacompanniante] = useState();
 	const [numeroVehiculo, setNumeroVehiculo] = useState(358);
 	const { codigo } = useContext(ContextoCodigo);
 	const [lugar, setlugar] = useState("");
@@ -40,6 +44,7 @@ const FormOficioCom = () => {
 
 	useEffect(() => {
 		const getData = async () => {
+			setAcompanniate([])
 			const num_oficio = [];
 
 			const querySnapshot = await getDocs(collection(db, "oficio_comision"));
@@ -59,8 +64,6 @@ const FormOficioCom = () => {
 		getData();
 	}, [oficios]);
 
-  const handleClose = () => setOpen(false);
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 			
@@ -68,7 +71,7 @@ const FormOficioCom = () => {
 			
 			
 			try {
-				if (fecha[0] === null  || personalDern.length <= 0 || vehiculo.length <=0 ) {
+				if (fecha[0] === null || vehiculo.length <=0 ) {
 					toaster.push(message, {placement})
 				}else{
 					setloading( true )
@@ -87,7 +90,7 @@ const FormOficioCom = () => {
 					nombre_solicitante: usuario.nombre,
 					codigo_solicitante: usuario.codigo,
 					acompanniantes_DERN: personalDern,
-					acompanniantes_extra: personasExtra,
+					acompanniantes_extra: Acompanniate,
 					actividades_a_realizar: actividades,
 					fecha: fecha,
 					lugar_traslado: lugar,
@@ -137,6 +140,21 @@ const FormOficioCom = () => {
 	  </Message>
 	)
 	
+	const handleAcompanniantesExtra = () => {
+
+			if (codigoacompanniante != null || codigoacompanniante != ""  ) {
+		     setAcompanniate( [...Acompanniate,`${nombreExtra} ${Relacion} Codigo:${codigoacompanniante} IMSS:${IMSS}`] )
+				
+			}else{
+		    setAcompanniate( [...Acompanniate,`${nombreExtra} ${Relacion} IMSS:${IMSS}`] )
+  
+			}
+
+		setnombreExtra("")
+		setRelacion("")
+		setIMSS("")
+		setcodigoacompanniante("")
+	}
 
 	return (
 
@@ -169,7 +187,7 @@ const FormOficioCom = () => {
 					rows="5"
 					cols="33"
 					value={actividades}
-					placeholder="•Práctica de campo con estudiantes de la materia de Botánica II de la Carrera de IRNA.      •Muestreo del proyecto de investigación “Árboles del bosque mesófilo”. "
+					placeholder="1. Práctica de campo con estudiantes de la materia de Botánica II de la Carrera de IRNA.                   2. Muestreo del proyecto de investigación “Árboles del bosque mesófilo”. "
 					onChange={(e) => setactividades(e.target.value)}
 				/>
 				<label htmlFor="fecha">Fecha:</label>
@@ -284,15 +302,58 @@ const FormOficioCom = () => {
 					<label htmlFor="acompanniantesComisionado">
 						Acompañantes bajo la responsabilidad de los comisionados (Separar por comas cada nombre)
 					</label>
-					<input
-						type="text"
-						placeholder=" Juan Lopez Perez estudiante Irna Imss: 231213, Pedro Perez... "
-						name="acompanniantesComisionado"
-						id="acompanniantesComisionado"
-						className="Texto"
-						value={personasExtra}
-						onChange={(e) => setPersonasExtra(e.target.value)}
-					/>
+					{ Acompanniate.map( (persona)=> {
+						return <h5> {persona} </h5>
+					} )
+					
+					}
+					<div>
+						<FormAco>
+					<div>
+						<label htmlFor="">Nombre:</label>
+						<input className="Texto" 
+						value={nombreExtra}
+						 onChange={(e)=>setnombreExtra(e.target.value)}
+						/>
+
+					</div>	
+					<div>
+						<label htmlFor="">Relacion:</label>
+						<input className="Texto"
+						value={Relacion}
+							onChange={(e)=> setRelacion(e.target.value)}
+						/>
+					</div>	
+					<div>
+						<label htmlFor="">Codigo:</label>
+						
+						<input className="Texto"
+						value={codigoacompanniante}
+						onChange={(e)=> setcodigoacompanniante(e.target.value)}
+						/>
+					</div>
+
+									
+					<div>
+						<label htmlFor="">IMSS:</label>
+						
+						<input className="Texto"
+						value={IMSS}
+							onChange={(e)=> setIMSS(e.target.value)}
+						/>
+					</div>
+
+										
+					</FormAco>
+					
+					<Btn type="button" onClick={()=> handleAcompanniantesExtra()} ><AddOutlineIcon fontSize='1.2em'/> Agregar acompañante </Btn>
+					</div>
+					
+					
+
+					
+					
+					
 				</div>
 				<Boton type="submit">Solicitar</Boton>
 			</Form>
@@ -315,6 +376,7 @@ export const Form = styled.form`
 	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
 	label,
+
 	legend {
 		display: block;
 		font-weight: 600;
@@ -415,5 +477,39 @@ const Profesorfield = styled.div`
 	font-size: 20px;
 	margin-bottom: 5px;
 	color: #1f1f1f;
+
 `;
+const FormAco = styled.form`
+
+display: flex ;
+flex-direction: row;
+justify-content: space-evenly;
+
+div{
+	margin-right: 10px; 
+}
+
+`;
+
+const Btn = styled.button`
+
+
+margin-top: 10px;
+	background: #2B475C;
+	font-weight: 600;
+	font-family: "Open Sans", sans-serif;
+	border: none;
+	cursor: pointer;
+	width: 25%;
+	padding: 5px;
+	border-radius: 5px;
+	color: #fff;
+	font-size: 16px;
+	transition: 0.3s ease all;
+	:hover {
+		background: #213748;
+	}
+`
+
+
 export default FormOficioCom;

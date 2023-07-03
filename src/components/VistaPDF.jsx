@@ -15,9 +15,8 @@ import { ContextoCodigo } from "../contexts/contextoCodigo";
 import logo from "../assets/LOg.png";
 import encabezado from "../assets/Encabezado.png";
 import footer from "../assets/footer.png";
-import LOGOS from "../assets/LOGOS.png"
 import { profesores } from "../Data/profesores";
-import { Columns } from "@rsuite/icons";
+
 const VistaPDF = () => {
 	const { Oficio } = useContext(ContextoCodigo);
 	const [personal, setpersonal] = useState();
@@ -33,6 +32,7 @@ const VistaPDF = () => {
 	const [usuario, setUsuario] = useState({});
 	const current = new Date();
   	const date = `${current.getDate()}/${ convertirMes(current.getMonth()+1) }/${current.getFullYear()}`;
+	
 
 
 	useEffect(() => {
@@ -90,7 +90,7 @@ const VistaPDF = () => {
 
 	const styles = StyleSheet.create({
 		title: {
-			fontWeight: "strong",
+			
 			textAlign: "center",
 			fontSize: 14,
 			marginTop: 15,
@@ -150,6 +150,10 @@ const VistaPDF = () => {
 		presente:{
 			marginBottom: 15,
 		},
+
+		nombre:{
+			fontWeight: 'bolder',
+		}
 		
 	});
 	return ( 
@@ -162,7 +166,7 @@ const VistaPDF = () => {
 							<Image src={encabezado} style={styles.head} />
 						</View>
 						<View>
-						<b> 	<Text style={styles.title}>    OFICIO DE COMISIÓN   </Text></b> 
+						 	<Text style={styles.title}>    OFICIO DE COMISIÓN <b>hrkko</b>  </Text>
 						</View>
 						<View>
 						{
@@ -220,21 +224,30 @@ const VistaPDF = () => {
 								})}
 								y reportará a este Departamento los resultados de la comisión.
 							</Text>
+								{
+									Oficio.acompanniantes_extra.length>0?
+									<Text style={ styles.parrafo }>
 
-							<Text style={ styles.parrafo }>
-								Las siguientes personas van como acompañantes, bajo la
-								responsabilidad de los comisionados:
-								 {'\n'}
-									{
-							 Oficio.acompanniantes_extra.split(',').map( (nombre)=>{
-								return<Text style={ styles.parrafo } >{'\n'} •{"    "}{nombre}</Text>
-							 } )
-
-							 }
+									Las siguientes personas van como acompañantes, bajo la
+									responsabilidad de los comisionados:
+									 {'\n'}
+										{
+											Oficio.acompanniantes_extra.map( (persona)=>{
+												return <Text>•{ persona }{'\n'}</Text>
+											} )
+	
+								 }
+									
 								
+									
+								</Text>
+									:
+
+										<Text> 
+
+										</Text>
+								}
 							
-								
-							</Text>
 
 							<Text style={styles.parrafo}>
 								Se agradece a las autoridades civiles y militares, brindarles
