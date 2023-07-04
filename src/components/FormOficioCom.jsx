@@ -141,14 +141,18 @@ const FormOficioCom = () => {
 	)
 	
 	const handleAcompanniantesExtra = () => {
-
-			if (codigoacompanniante != null || codigoacompanniante != ""  ) {
+			if( nombreExtra && Relacion){
+				if (codigoacompanniante) {
 		     setAcompanniate( [...Acompanniate,`${nombreExtra} ${Relacion} Codigo:${codigoacompanniante} IMSS:${IMSS}`] )
+			 console.log('codigo', Acompanniate );
 				
 			}else{
 		    setAcompanniate( [...Acompanniate,`${nombreExtra} ${Relacion} IMSS:${IMSS}`] )
-  
+			console.log('no', Acompanniate );
+
 			}
+			}
+			
 
 		setnombreExtra("")
 		setRelacion("")
@@ -311,7 +315,9 @@ const FormOficioCom = () => {
 						<FormAco>
 					<div>
 						<label htmlFor="">Nombre:</label>
+
 						<input className="Texto" 
+						
 						value={nombreExtra}
 						 onChange={(e)=>setnombreExtra(e.target.value)}
 						/>
